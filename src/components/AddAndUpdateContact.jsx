@@ -10,7 +10,9 @@ import * as Yup from 'yup';
 // validation
 const contactsSchemaValidation=Yup.object().shape({
   name:Yup.string().required("Name is Neccesary to write"),
-  email:Yup.string().email("enter a valid email").required("email also Neccesary to write")
+  email:Yup.string().email("enter a valid email").required("email also Neccesary to write"),
+  phone:Yup.string().matches(/^\d+$/, 'Phone number must only contain digits').length(10, 'Phone number must be exactly 10 digits long')  
+  .required('Phone number is required') 
 })
 // validation end
 
@@ -50,10 +52,12 @@ const AddAndUpdateContact = ({isOpen,onClose,isUpdate,contact}) => {
     validationSchema={contactsSchemaValidation}
     initialValues={isUpdate?{
        name:contact.name,
-        email:contact.email
+        email:contact.email,
+        phone:contact.phone
     }:{
         name:"",
-        email:""
+        email:"",
+        phone:""
     }}
     onSubmit={(values)=>{
         console.log(values);
@@ -78,7 +82,15 @@ const AddAndUpdateContact = ({isOpen,onClose,isUpdate,contact}) => {
             </div>
           </div>
 
-          <button className='bg-orange px-3 py-1.5 border self-end'>{isUpdate?"Update":"Add"} Contact</button>
+          <div className='flex flex-col gap-1'>
+            <label htmlFor='phone'>Phone</label>
+            <Field  name="phone" className="border h-10"/>
+            <div className='text-red-600 text-xs'>
+              <ErrorMessage name='phone'/>
+            </div>
+          </div>
+
+          <button type='submit' className='bg-orange px-3 py-1.5 border self-end'>{isUpdate?"Update":"Add"} Contact</button>
         </Form>
     </Formik>
     {/* child of modal end */}

@@ -52,6 +52,7 @@ const ContactCard = ({ contact }) => {
     <div>
       <h1 className="font-medium text-gray-900">{contact.name}</h1>
       <p className="text-sm text-gray-600">{contact.email}</p>
+      <p className="text-sm text-gray-600">{contact.phone}</p>
     </div>
   </div>
 
